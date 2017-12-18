@@ -29,7 +29,6 @@ public class JeuxDeDonneesTest {
 
 	@Test
 	public void test_primeExceptionnelle() {
-//		assertThat(bulletin1.getPrimeExceptionnelle(), equalTo(new BigDecimal("1000")));
 		assertThat(bulletin1.getPrimeExceptionnelle()).isEqualTo(new BigDecimal("1000"));
 	}
 
