@@ -9,9 +9,6 @@ public class ResultatCalculRemuneration {
 	private String netImposable;
 	private String netAPayer;
 	
-	public ResultatCalculRemuneration() {
-	}
-
 	/**
 	 * @return the salaireDeBase
 	 */
