@@ -35,24 +35,24 @@ public class GradeServiceJdbcTemplateTest {
 
 	@Test
 	public void test_sauvegarder_lister_mettre_a_jour() {
-		// TODO sauvegarder un nouveau grade
+		
 		Grade garde = new Grade();
 		garde.setCode("TEST");
 		garde.setNbHeuresBase(new BigDecimal("12.02"));
 		garde.setTauxBase(new BigDecimal("2.00"));
 		gradeService.sauvegarder(garde);
 		
-		// TODO vérifier qu'il est possible de récupérer le nouveau grade via la méthode lister
+		
 		Grade gradeRecup = gradeService.lister().stream().filter( g -> g.getCode().equals(garde.getCode()) ).findAny().orElse(null);
 		assertThat(gradeRecup).isNotNull();
 		assertThat(gradeRecup.getNbHeuresBase()).isEqualTo(garde.getNbHeuresBase());
 		assertThat(gradeRecup.getTauxBase()).isEqualTo(garde.getTauxBase());
 		
-		// TODO modifier un grade
+		
 		gradeRecup.setCode("MODIFTEST");
 		gradeService.mettreAJour(gradeRecup);
 		
-		// TODO vérifier que les modifications sont bien prises en compte via la méthode lister
+		
 		Grade gradeRecup2 = gradeService.lister().get(0);
 		assertThat(gradeRecup2.getCode()).isEqualTo(gradeRecup.getCode());
 	}
