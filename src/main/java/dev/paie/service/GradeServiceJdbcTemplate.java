@@ -1,15 +1,12 @@
 package dev.paie.service;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import dev.paie.entite.Grade;
@@ -40,18 +37,15 @@ public class GradeServiceJdbcTemplate implements GradeService {
 	@Override
 	public List<Grade> lister() {
 		String sql = "SELECT * FROM GRADE";
-		return this.jdbcTemplate.query(sql, new GradeMapper());
-	}
-	
-	private class GradeMapper implements RowMapper<Grade> {
-		public Grade mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Grade g = new Grade();
-			g.setId(rs.getInt("ID"));
-			g.setCode(rs.getString("CODE"));
-			g.setNbHeuresBase(new BigDecimal(rs.getString("nbHeuresBase")));
-			g.setTauxBase(new BigDecimal(rs.getString("tauxBase")));
-			return g;
-		}
+		return this.jdbcTemplate.query(sql, (rs, rowNum) -> {
+				Grade g = new Grade();
+				g.setId(rs.getInt("ID"));
+				g.setCode(rs.getString("CODE"));
+				g.setNbHeuresBase(new BigDecimal(rs.getString("nbHeuresBase")));
+				g.setTauxBase(new BigDecimal(rs.getString("tauxBase")));
+				return g;
+			}
+		);
 	}
 	
 }
