@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
+import javax.sql.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,26 +25,28 @@ public class GradeServiceJdbcTemplateTest {
 	private GradeService gradeService;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private DataSource dataSource;
 	
 	@Before
 	public void dropBase() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update("DELETE FROM grade");
 	}
 
 	@Test
 	public void test_sauvegarder_lister_mettre_a_jour() {
 		// TODO sauvegarder un nouveau grade
-		Grade g = new Grade();
-		g.setCode("TEST");
-		g.setNbHeuresBase(new BigDecimal("12.02"));
-		g.setTauxBase(new BigDecimal("2.00"));
-		gradeService.sauvegarder(g);
+		Grade garde = new Grade();
+		garde.setCode("TEST");
+		garde.setNbHeuresBase(new BigDecimal("12.02"));
+		garde.setTauxBase(new BigDecimal("2.00"));
+		gradeService.sauvegarder(garde);
 		
 		// TODO vérifier qu'il est possible de récupérer le nouveau grade via la méthode lister
-		Grade gradeRecup = gradeService.lister().stream().distinct().findAny().orElse(null);
-		assertThat(gradeRecup.getNbHeuresBase()).isEqualTo(g.getNbHeuresBase());
-		assertThat(gradeRecup.getTauxBase()).isEqualTo(g.getTauxBase());
+		Grade gradeRecup = gradeService.lister().stream().filter( g -> g.getCode().equals(garde.getCode()) ).findAny().orElse(null);
+		assertThat(gradeRecup).isNotNull();
+		assertThat(gradeRecup.getNbHeuresBase()).isEqualTo(garde.getNbHeuresBase());
+		assertThat(gradeRecup.getTauxBase()).isEqualTo(garde.getTauxBase());
 		
 		// TODO modifier un grade
 		gradeRecup.setCode("MODIFTEST");
