@@ -12,18 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.paie.entite.Cotisation;
 
 @Service
+@Transactional
 public class CotisationServiceJpa implements CotisationService {
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	@Transactional
 	public void sauvegarder(Cotisation nouvelleCotisation) {
 		em.persist(nouvelleCotisation);
 	}
 
 	@Override
-	@Transactional
 	public void mettreAJour(Cotisation cotisation) {
 		em.merge(cotisation);
 	}

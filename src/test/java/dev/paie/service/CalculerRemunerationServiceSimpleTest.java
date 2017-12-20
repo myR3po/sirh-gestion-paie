@@ -12,7 +12,6 @@ import dev.paie.config.JeuxDeDonneesConfig;
 import dev.paie.config.ServicesConfig;
 import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.ResultatCalculRemuneration;
-import dev.paie.spring.DataSourceMySQLConfig;
 
 //Sélection des classes de configuration Spring à utiliser lors du test
 @ContextConfiguration(classes = { ServicesConfig.class, JeuxDeDonneesConfig.class})
