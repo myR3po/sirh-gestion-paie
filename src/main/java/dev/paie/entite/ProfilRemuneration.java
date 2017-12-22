@@ -2,13 +2,12 @@ package dev.paie.entite;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class ProfilRemuneration {
@@ -17,16 +16,17 @@ public class ProfilRemuneration {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column
 	private String code;
 
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "profil_cotisationNonImposables")
 	private List<Cotisation> cotisationsNonImposables;
 	
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "profil_cotisationImposables")
 	private List<Cotisation> cotisationsImposables;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Avantage> avantages;
 
 	public Integer getId() {

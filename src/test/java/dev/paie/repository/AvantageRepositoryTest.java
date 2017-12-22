@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,16 +26,10 @@ public class AvantageRepositoryTest {
 	@Autowired
 	private DataSource dataSource;
 
-	@Value("${jdbc.driver}")
-	String driver;
-
 	@After
-	// lancer test si on dans une configuration autre que h2
 	public void dropBase() {
-		if (!"org.h2.Driver".equals(driver)) {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			jdbcTemplate.update("DELETE FROM avantage");
-		}
 	}
 
 	@Test

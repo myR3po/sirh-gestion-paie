@@ -2,22 +2,57 @@ package dev.paie.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.Cotisation;
 import dev.paie.entite.ResultatCalculRemuneration;
+import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.util.PaieUtils;
+import dev.paie.web.controller.CotisationRow;
 
 @Service
 public class CalculerRemunerationServiceSimple implements CalculerRemunerationService
 {
 
+	@Autowired
+	BulletinSalaireRepository bulletinSalaireRepository;
+	
+	@Autowired
+	PaieUtils paieUtils;
+	
+	private Function<Cotisation, CotisationRow> cotisationToCotisationRow(BigDecimal salaireBrut){
+		
+		return c -> {
+			CotisationRow cr = new CotisationRow();
+			
+			cr.setRubrique(c.getLibelle());
+			
+			if(c.getTauxSalarial() != null) {
+				cr.setMontantSalarial( paieUtils.formaterBigDecimal(c.getTauxSalarial().multiply(salaireBrut )));
+				cr.setTauxSalarial(paieUtils.formaterBigDecimal(c.getTauxSalarial()));
+			}
+			
+			if(c.getTauxPatronal() != null) {
+				cr.setCotisationsPatronales(paieUtils.formaterBigDecimal(c.getTauxPatronal().multiply(salaireBrut)));
+				cr.setTauxPatronal(paieUtils.formaterBigDecimal(c.getTauxPatronal()));
+			}
+			
+			
+			return cr;
+			};
+	}
+	
 	@Override
 	public ResultatCalculRemuneration calculer(BulletinSalaire bulletin) {
-		PaieUtils paieUtils = new PaieUtils();
+//		PaieUtils paieUtils = new PaieUtils();
 		ResultatCalculRemuneration rcr = new ResultatCalculRemuneration();
 		String zero = "0.00";
 		
@@ -74,5 +109,39 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 		}
 		return rcr;
 	}
-
+	
+	@Transactional
+	public ResultatCalculRemuneration calculer(Integer bulletinId) {
+		BulletinSalaire bulletin =  bulletinSalaireRepository.findOne(bulletinId);
+		return calculer(bulletin);
+	}
+	
+	@Transactional
+	public BulletinViewModel calculerForView(Integer bulletinId) {
+				
+		BulletinViewModel bulletinView = new BulletinViewModel();
+		
+		BulletinSalaire bulletin =  bulletinSalaireRepository.findOne(bulletinId);
+		bulletinView.setBulletin(bulletin);
+		
+		ResultatCalculRemuneration rcr = calculer(bulletin);
+		BigDecimal salaireBrut = new BigDecimal(rcr.getSalaireBrut());
+		bulletinView.setCalculRemuneration(calculer(bulletin));
+		
+		List<CotisationRow> cotisation =  bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables().stream().map(cotisationToCotisationRow(salaireBrut) ).collect(Collectors.toList());
+		bulletinView.setCotisationsImposables(cotisation);
+		
+		cotisation =  bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables().stream().map(cotisationToCotisationRow(salaireBrut) ).collect(Collectors.toList());
+		bulletinView.setCotisationsNonImposables(cotisation);
+		
+		return bulletinView;
+	}
+	
+	@Override
+	@Transactional
+	public Map<BulletinSalaire, ResultatCalculRemuneration> calculerForAll() {
+		List<BulletinSalaire> bulletins = bulletinSalaireRepository.findAll();
+		return bulletins.stream().collect(Collectors.toMap(bul -> bul, bul -> calculer(bul)));
+	}
+	
 }

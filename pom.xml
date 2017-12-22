@@ -91,6 +91,24 @@
 			<artifactId>hibernate-java8</artifactId>
 			<version>5.1.0.Final</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -108,15 +126,16 @@
 	
 	<profiles>
 		<profile>
-			<id>MariaDB</id>
+			<id>prodDb</id>
 			<activation>
-		    	<activeByDefault>false</activeByDefault>
+		    	<activeByDefault>true</activeByDefault>
 		    </activation>
 			<properties>
-				<jdbc.driver>org.mariadb.jdbc.Driver</jdbc.driver>
-		    	<jdbc.database.url>jdbc:mysql://localhost:3306/sirhpaie</jdbc.database.url>
-		    	<jdbc.database.user>sirh-paie</jdbc.database.user>
-		    	<jdbc.database.password>sirh-paie</jdbc.database.password>
+<!-- 				<jdbc.driver>org.mariadb.jdbc.Driver</jdbc.driver> -->
+<!-- 		    	<jdbc.database.url>jdbc:mysql://localhost:3306/sirhpaie</jdbc.database.url> -->
+<!-- 		    	<jdbc.database.user>sirh-paie</jdbc.database.user> -->
+<!-- 		    	<jdbc.database.password>sirh-paie</jdbc.database.password> -->
+		    	<spring.profiles.to.activate>prod</spring.profiles.to.activate>
 			</properties>
 			<dependencies>
 				<dependency>
@@ -128,15 +147,16 @@
 		</profile>
 		
 		<profile>
-			<id>H2</id>
+			<id>devDB</id>
 			<activation>
-		    	<activeByDefault>true</activeByDefault>
+		    	<activeByDefault>false</activeByDefault>
 		    </activation>
 		    <properties>
-		    	<jdbc.driver>org.h2.Driver</jdbc.driver>
-		    	<jdbc.database.url>none</jdbc.database.url>
-		    	<jdbc.database.user>none</jdbc.database.user>
-		    	<jdbc.database.password>none</jdbc.database.password>
+<!-- 		    	<jdbc.driver>org.h2.Driver</jdbc.driver> -->
+<!-- 		    	<jdbc.database.url>none</jdbc.database.url> -->
+<!-- 		    	<jdbc.database.user>none</jdbc.database.user> -->
+<!-- 		    	<jdbc.database.password>none</jdbc.database.password> -->
+		    	<spring.profiles.to.activate>dev</spring.profiles.to.activate>
 		    </properties>
 		    <dependencies>
             	<dependency>

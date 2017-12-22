@@ -2,7 +2,6 @@ package dev.paie.entite;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,9 +13,9 @@ public class Periode {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column
+
 	private LocalDate dateDebut;
-	@Column
+	
 	private LocalDate dateFin;
 	
 	public LocalDate getDateDebut() {
@@ -36,6 +35,11 @@ public class Periode {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return dateDebut + " - " + dateFin;
 	}
 	
 	
