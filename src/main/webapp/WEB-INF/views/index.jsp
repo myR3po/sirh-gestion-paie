@@ -4,7 +4,7 @@
     <div class="container">
 
       <div class="jumbotron">
-        <h1>SIRH - Gestion de la paie</h1>
+        <h1 class="display-3">SIRH - Gestion de la paie</h1>
       </div>
 
     </div><!-- /.container -->

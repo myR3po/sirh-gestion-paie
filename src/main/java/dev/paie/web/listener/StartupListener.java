@@ -17,5 +17,4 @@ public class StartupListener {
 	public void contextRefreshedEvent(){
 		initialiserDonneesServiceDev.initialiser();
 	}
-
 }

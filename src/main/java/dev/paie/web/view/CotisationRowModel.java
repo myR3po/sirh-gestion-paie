@@ -1,6 +1,6 @@
-package dev.paie.web.controller;
+package dev.paie.web.view;
 
-public class CotisationRow {
+public class CotisationRowModel {
 
 	private String rubrique;
 	private String tauxSalarial;

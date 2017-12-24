@@ -16,7 +16,8 @@ import dev.paie.entite.Cotisation;
 import dev.paie.entite.ResultatCalculRemuneration;
 import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.util.PaieUtils;
-import dev.paie.web.controller.CotisationRow;
+import dev.paie.web.view.BulletinViewModel;
+import dev.paie.web.view.CotisationRowModel;
 
 @Service
 public class CalculerRemunerationServiceSimple implements CalculerRemunerationService
@@ -28,10 +29,10 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 	@Autowired
 	PaieUtils paieUtils;
 	
-	private Function<Cotisation, CotisationRow> cotisationToCotisationRow(BigDecimal salaireBrut){
+	private Function<Cotisation, CotisationRowModel> cotisationToCotisationRow(BigDecimal salaireBrut){
 		
 		return c -> {
-			CotisationRow cr = new CotisationRow();
+			CotisationRowModel cr = new CotisationRowModel();
 			
 			cr.setRubrique(c.getLibelle());
 			
@@ -128,7 +129,7 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 		BigDecimal salaireBrut = new BigDecimal(rcr.getSalaireBrut());
 		bulletinView.setCalculRemuneration(calculer(bulletin));
 		
-		List<CotisationRow> cotisation =  bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables().stream().map(cotisationToCotisationRow(salaireBrut) ).collect(Collectors.toList());
+		List<CotisationRowModel> cotisation =  bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables().stream().map(cotisationToCotisationRow(salaireBrut) ).collect(Collectors.toList());
 		bulletinView.setCotisationsImposables(cotisation);
 		
 		cotisation =  bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables().stream().map(cotisationToCotisationRow(salaireBrut) ).collect(Collectors.toList());

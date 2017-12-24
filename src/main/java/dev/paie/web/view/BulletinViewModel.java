@@ -1,17 +1,17 @@
-package dev.paie.service;
+package dev.paie.web.view;
 
 import java.util.List;
 
 import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.ResultatCalculRemuneration;
-import dev.paie.web.controller.CotisationRow;
+import dev.paie.web.view.CotisationRowModel;
 
 public class BulletinViewModel {
 
 	private BulletinSalaire bulletin;
 	private ResultatCalculRemuneration calculRemuneration;
-	private List<CotisationRow> cotisationsImposables;
-	private List<CotisationRow> cotisationsNonImposables;
+	private List<CotisationRowModel> cotisationsImposables;
+	private List<CotisationRowModel> cotisationsNonImposables;
 	
 	public BulletinSalaire getBulletin() {
 		return bulletin;
@@ -29,19 +29,19 @@ public class BulletinViewModel {
 		this.calculRemuneration = calculRemuneration;
 	}
 
-	public List<CotisationRow> getCotisationsImposables() {
+	public List<CotisationRowModel> getCotisationsImposables() {
 		return cotisationsImposables;
 	}
 
-	public void setCotisationsImposables(List<CotisationRow> cotisationsImposables) {
+	public void setCotisationsImposables(List<CotisationRowModel> cotisationsImposables) {
 		this.cotisationsImposables = cotisationsImposables;
 	}
 
-	public List<CotisationRow> getCotisationsNonImposables() {
+	public List<CotisationRowModel> getCotisationsNonImposables() {
 		return cotisationsNonImposables;
 	}
 
-	public void setCotisationsNonImposables(List<CotisationRow> cotisationsNonImposables) {
+	public void setCotisationsNonImposables(List<CotisationRowModel> cotisationsNonImposables) {
 		this.cotisationsNonImposables = cotisationsNonImposables;
 	}
 	

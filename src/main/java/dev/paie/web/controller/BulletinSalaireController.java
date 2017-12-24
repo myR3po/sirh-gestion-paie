@@ -1,10 +1,17 @@
 package dev.paie.web.controller;
 
 import java.math.BigDecimal;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +22,8 @@ import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.RemunerationEmployeRepository;
 import dev.paie.service.CalculerRemunerationService;
+import dev.paie.web.form.model.BulletinSalaireForm;
+import dev.paie.web.form.validator.BulletinSalaireFormValidator;
 
 @Controller
 @RequestMapping("/bulletins")
@@ -32,27 +41,40 @@ public class BulletinSalaireController {
 	@Autowired
 	CalculerRemunerationService calculerRemunerationService;
 	
+	@Autowired
+	private BulletinSalaireFormValidator bulletinSalaireFormValidator;
+	   
+	@InitBinder("BulletinSalaireForm")
+	protected void initBinder(WebDataBinder binder) {
+		binder.addValidators(bulletinSalaireFormValidator);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
 	public ModelAndView creerBulletin() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("bulletins/creerBulletin");
-		mv.addObject("bulletin", new BulletinSalaire());
-		mv.addObject("employeList", remunerationEmployeRepository.findAll());
-		mv.addObject("periodeList", periodeRepository.findAll());
+		ModelAndView mv = getCreerBulletinForm();
+		mv.addObject("bulletin", new BulletinSalaireForm());
 		return mv;
 	}
 	
 	@PostMapping("/creer")
-	public String creerBulletin(@RequestParam("primeExceptionnelle") String prime, @RequestParam("periode") Integer periode, @RequestParam("remunerationEmploye") Integer matricule) {
-		BulletinSalaire bulletinSalaire = new BulletinSalaire();
-		bulletinSalaire.setPeriode(periodeRepository.findOne(periode));
+	public ModelAndView creerBulletin(@Valid @ModelAttribute("bulletin") BulletinSalaireForm bsf, BindingResult results) {
 		
-		bulletinSalaire.setPrimeExceptionnelle(new BigDecimal(prime));
+		ModelAndView mv = new ModelAndView();
+		if(results.hasErrors()) {
+			mv = getCreerBulletinForm();
+		}else {
 		
-		bulletinSalaire.setRemunerationEmploye(remunerationEmployeRepository.findOne(matricule));
-		
-		bulletinSalaireRepository.save(bulletinSalaire);		
-		return "redirect:lister";
+			BulletinSalaire bulletinSalaire = new BulletinSalaire();
+			bulletinSalaire.setPeriode(periodeRepository.findOne(bsf.getPeriode()));
+			bsf.setPrimeExceptionnelle(bsf.getPrimeExceptionnelle() == null || bsf.getPrimeExceptionnelle().isEmpty()? "0" : bsf.getPrimeExceptionnelle()); 
+			bulletinSalaire.setPrimeExceptionnelle(new BigDecimal(bsf.getPrimeExceptionnelle()));
+			
+			bulletinSalaire.setRemunerationEmploye(remunerationEmployeRepository.findByMatricule(bsf.getMatricule()));
+			
+			bulletinSalaireRepository.save(bulletinSalaire);
+			mv.setViewName("redirect:lister");
+		}		
+		return mv;
 	}
 	
 	@RequestMapping(path = "/lister")	
@@ -64,18 +86,29 @@ public class BulletinSalaireController {
 	
 	
 	@GetMapping("/visualiser")	
-	public ModelAndView visualiserBulletin(@RequestParam("id") Integer id) {
+	public ModelAndView visualiserBulletin(@RequestParam("id") Integer id) throws Exception {
+		
+		if(id == null) {
+			throw new Exception("Ce bulletin de salaire n'existe pas");
+		}
 		
 		if(!bulletinSalaireRepository.exists(id)) {
-			// throw new Exception();
+			throw new Exception("Ce bulletin de salaire n'existe pas");
 		};
 			
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("bulletins/visualiserBulletin");
-		
 		mv.addObject("bulletinView", calculerRemunerationService.calculerForView(id));
 		return mv;
-
 	}
+	
+	private ModelAndView getCreerBulletinForm() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("bulletins/creerBulletin");
+		mv.addObject("employeList", remunerationEmployeRepository.findAll());
+		mv.addObject("periodeList", periodeRepository.findAll());
+		return mv;
+	}
+	
 	
 }

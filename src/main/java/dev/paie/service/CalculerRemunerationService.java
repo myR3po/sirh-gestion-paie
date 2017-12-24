@@ -4,6 +4,7 @@ import java.util.Map;
 
 import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.ResultatCalculRemuneration;
+import dev.paie.web.view.BulletinViewModel;
 
 public interface CalculerRemunerationService {
 	

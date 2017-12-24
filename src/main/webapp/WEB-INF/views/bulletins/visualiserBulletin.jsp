@@ -7,15 +7,28 @@
 		<h1>Bulletin de Salaire</h1>
 	</div>
 	
-	<span>Periode : <c:out value="${bulletin.periode}" /></span>
-	<span>Matricule : <c:out value="${bulletin.remunerationEmploye.matricule}" /></span>
-	<br/>
-<span>Entreprise : <c:out value="${bulletin.remunerationEmploye.entreprise.denomination}" /></span>
-<span>Siret : <c:out value="${bulletin.remunerationEmploye.entreprise.siret}" /></span>	
-		<br/>
-	<h1>Salaire</h1>
-	<table class="table table-bordered">
-		<thead>
+	<div class="row marketing">
+        <div class="col-lg-6">
+        
+			<p></p>
+			<p></p>
+			<h4>Entreprise</h4>
+			<p> <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.denomination}" /></p>
+			<p>Siret : <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.siret}" /></p>             
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Periode</h4>
+          <p>Du <c:out value="${bulletinView.bulletin.periode.dateDebut}" /> au <c:out value="${bulletinView.bulletin.periode.dateFin}" /></p>
+
+          <h4></h4>
+          <p>Matricule : <c:out value="${bulletinView.bulletin.remunerationEmploye.matricule}" /></p>
+        </div>
+      </div>
+
+	<h3>Salaire</h3>
+	<table class="table table-striped table-bordered">
+		<thead class="thead-default">
 			<tr>
 				<th>Rubriques</th>
 				<th>Base</th>
@@ -68,9 +81,9 @@
 		</tbody>
 	</table>
 	
-	<h1>Cotisations</h1>
-	<table class="table table-bordered">
-		<thead>
+	<h3>Cotisations</h3>
+	<table class="table table-striped table-bordered">
+		<thead class="thead-default">
 			<tr>
 				<th>Rubriques</th>
 				<th>Base</th>
@@ -103,9 +116,9 @@
 		</tbody>
 	</table>
 
-	<h1>Net Imposable : <c:out value="${bulletinView.calculRemuneration.netImposable}" /></h1>
-	<table class="table table-bordered">
-		<thead>
+	<h3>Net Imposable : <c:out value="${bulletinView.calculRemuneration.netImposable}" /></h3>
+	<table class="table table-striped table-bordered">
+		<thead class="thead-default">
 			<tr>
 				<th>Rubriques</th>
 				<th>Base</th>
@@ -128,6 +141,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<h1>Net A PAYER : <c:out value="${bulletinView.calculRemuneration.netAPayer}" /></h1>
+	<h3 class="float-right">Net A PAYER : <c:out value="${bulletinView.calculRemuneration.netAPayer}" /></h3>
 </div>
 <%@include file="../inc/footer.jsp"%>

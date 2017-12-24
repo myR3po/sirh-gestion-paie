@@ -6,7 +6,7 @@
 	<div class="mt-1">
 		<h1>Lister des Bulletins</h1>
 	</div>
-	<a class="float-right btn btn-primary" href="<c:url value="/bulletins/creer" context="/paie/mvc"/>">Creer un nouveau bulletin</a>
+	<a class="row btn btn-primary float-right" href="<c:url value="/bulletins/creer" context="/paie/mvc"/>">Creer un nouveau bulletin</a>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -29,7 +29,10 @@
 					<td><c:out value="${bulletin.value.salaireBrut}" /></td>
 					<td><c:out value="${bulletin.value.netImposable}" /></td>
 					<td><c:out value="${bulletin.value.netAPayer}" /></td>
-					<td><a href="<c:url value="/bulletins/visualiser?id=${bulletin.key.id}" context="/paie/mvc"/>">visualiser</a> </td>
+					<td><a href="<c:url value="/bulletins/visualiser" context="/paie/mvc">
+								  	<c:param name="id" value="${bulletin.key.id}"/>
+								 </c:url>
+					">visualiser</a> </td>
 				</tr>
 			</c:forEach>
 		</tbody>
