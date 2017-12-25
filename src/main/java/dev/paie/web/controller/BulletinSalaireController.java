@@ -2,12 +2,11 @@ package dev.paie.web.controller;
 
 import java.math.BigDecimal;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import dev.paie.entite.BulletinSalaire;
+import dev.paie.exception.BulletinSalaireNotFoundException;
 import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.RemunerationEmployeRepository;
@@ -44,7 +44,7 @@ public class BulletinSalaireController {
 	@Autowired
 	private BulletinSalaireFormValidator bulletinSalaireFormValidator;
 	   
-	@InitBinder("BulletinSalaireForm")
+	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.addValidators(bulletinSalaireFormValidator);
 	}
@@ -57,9 +57,9 @@ public class BulletinSalaireController {
 	}
 	
 	@PostMapping("/creer")
-	public ModelAndView creerBulletin(@Valid @ModelAttribute("bulletin") BulletinSalaireForm bsf, BindingResult results) {
+	public ModelAndView creerBulletin(@Validated @ModelAttribute("bulletin") BulletinSalaireForm bsf, BindingResult results) {
 		
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv;
 		if(results.hasErrors()) {
 			mv = getCreerBulletinForm();
 		}else {
@@ -72,6 +72,7 @@ public class BulletinSalaireController {
 			bulletinSalaire.setRemunerationEmploye(remunerationEmployeRepository.findByMatricule(bsf.getMatricule()));
 			
 			bulletinSalaireRepository.save(bulletinSalaire);
+			mv = new ModelAndView();
 			mv.setViewName("redirect:lister");
 		}		
 		return mv;
@@ -89,12 +90,12 @@ public class BulletinSalaireController {
 	public ModelAndView visualiserBulletin(@RequestParam("id") Integer id) throws Exception {
 		
 		if(id == null) {
-			throw new Exception("Ce bulletin de salaire n'existe pas");
+			throw new BulletinSalaireNotFoundException();
 		}
 		
 		if(!bulletinSalaireRepository.exists(id)) {
-			throw new Exception("Ce bulletin de salaire n'existe pas");
-		};
+			throw new BulletinSalaireNotFoundException();
+		}
 			
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("bulletins/visualiserBulletin");

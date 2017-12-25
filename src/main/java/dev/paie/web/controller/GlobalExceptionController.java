@@ -4,15 +4,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.paie.exception.BulletinSalaireNotFoundException;
+
 @ControllerAdvice
 public class GlobalExceptionController {
 	
-	@ExceptionHandler(Exception.class)
-	public ModelAndView handleAllException(Exception ex) {
+	@ExceptionHandler(BulletinSalaireNotFoundException.class)
+	public ModelAndView handleBulletinSalaireNotFoundException(Exception ex) {
 
 		ModelAndView model = new ModelAndView("errors/error404");
-		model.addObject("errMsg", ex.getMessage());
-
 		return model;
 	}
 

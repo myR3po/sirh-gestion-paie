@@ -3,11 +3,19 @@
 <%@include file="../inc/header.jsp"%>
 
 <div class="container">
-	<div class="mt-1">
-		<h1>Lister des Bulletins</h1>
+
+	<div class="mt-4 mb-5">
+        <h3 class="display-4 text-center"> Liste des Bulletins </h3>
+    </div>
+
+	<div class="row mb-4">
+		<div class="col-12">
+			<a class="btn btn-primary float-right" role="button" href="<c:url value="/bulletins/creer" context="/paie/mvc"/>">Créer un nouveau bulletin</a>
+		</div>
 	</div>
-	<a class="row btn btn-primary float-right" href="<c:url value="/bulletins/creer" context="/paie/mvc"/>">Creer un nouveau bulletin</a>
-	<table class="table table-bordered">
+	
+
+	<table class="table thead-default table-bordered">
 		<thead>
 			<tr>
 				<th>Date/heure de création</th>

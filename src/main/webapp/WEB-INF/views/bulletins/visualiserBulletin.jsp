@@ -3,9 +3,11 @@
 <%@include file="../inc/header.jsp"%>
 
 <div class="container-fluid">
-	<div class="mt-1">
-		<h1>Bulletin de Salaire</h1>
-	</div>
+	
+	<div class="mt-4 mb-5">
+        <h3 class="display-4 text-center"> Bulletin de Salaire </h3>
+    </div>
+	
 	
 	<div class="row marketing">
         <div class="col-lg-6">
@@ -13,20 +15,22 @@
 			<p></p>
 			<p></p>
 			<h4>Entreprise</h4>
-			<p> <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.denomination}" /></p>
-			<p>Siret : <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.siret}" /></p>             
+			<p class="text-uppercase"> <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.denomination}" /></p>
+			<p>SIRET : <c:out value="${bulletinView.bulletin.remunerationEmploye.entreprise.siret}" /></p>             
         </div>
 
         <div class="col-lg-6">
           <h4>Periode</h4>
-          <p>Du <c:out value="${bulletinView.bulletin.periode.dateDebut}" /> au <c:out value="${bulletinView.bulletin.periode.dateFin}" /></p>
+          <p>Du <c:out value="${bulletinView.bulletin.periode.dateDebutFormat}" /> au <c:out value="${bulletinView.bulletin.periode.dateFinFormat}" /></p>
 
           <h4></h4>
           <p>Matricule : <c:out value="${bulletinView.bulletin.remunerationEmploye.matricule}" /></p>
         </div>
       </div>
 
-	<h3>Salaire</h3>
+	<div class="mt-5 mb-2">
+        <h3 class="font-weight-bold"> Salaire </h3>
+    </div>
 	<table class="table table-striped table-bordered">
 		<thead class="thead-default">
 			<tr>
@@ -39,49 +43,49 @@
 			</tr>
 		</thead>
 		
-
-		
 		<tbody>
-				<tr>
-					<td><c:out value="Salaire de base" /></td>
-					<td><c:out value="${bulletinView.bulletin.remunerationEmploye.grade.nbHeuresBase}" /></td>
-					<td><c:out value="${bulletinView.bulletin.remunerationEmploye.grade.tauxBase}" /></td>
-					<td><c:out value="${bulletinView.calculRemuneration.salaireDeBase}" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="${bulletinView.calculRemuneration.totalCotisationsPatronales}" /></td>
-				</tr>
-				
-				<tr>
-					<td><c:out value="Prime excep." /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="${bulletinView.bulletin.primeExceptionnelle}" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
-				</tr>
-				
-				<tr>
-					<td><c:out value=" " /></td>
-					<td><c:out value=" " /></td>
-					<td><c:out value=" " /></td>
-					<td><c:out value=" " /></td>
-					<td><c:out value=" " /></td>
-					<td><c:out value=" " /></td>
-				</tr>
-				
-				<tr>
-					<td><c:out value="Salaire Brut" /></td>
-					<td></td>
-					<td></td>
-					<td><c:out value="${bulletinView.calculRemuneration.salaireBrut}" /></td>
-					<td><c:out value="" /></td>
-					<td></td>
-				</tr>
-				
+			<tr>
+				<td><c:out value="Salaire de base" /></td>
+				<td><c:out value="${bulletinView.bulletin.remunerationEmploye.grade.nbHeuresBase}" /></td>
+				<td><c:out value="${bulletinView.bulletin.remunerationEmploye.grade.tauxBase}" /></td>
+				<td><c:out value="${bulletinView.calculRemuneration.salaireDeBase}" /></td>
+				<td><c:out value="" /></td>
+				<td><c:out value="${bulletinView.calculRemuneration.totalCotisationsPatronales}" /></td>
+			</tr>
+			
+			<tr>
+				<td><c:out value="Prime excep." /></td>
+				<td><c:out value="" /></td>
+				<td><c:out value="" /></td>
+				<td><c:out value="${bulletinView.bulletin.primeExceptionnelle}" /></td>
+				<td><c:out value="" /></td>
+				<td><c:out value="" /></td>
+			</tr>
+			
+			<tr>
+				<td><c:out value=" " /></td>
+				<td><c:out value=" " /></td>
+				<td><c:out value=" " /></td>
+				<td><c:out value=" " /></td>
+				<td><c:out value=" " /></td>
+				<td><c:out value=" " /></td>
+			</tr>
+			
+			<tr>
+				<td><c:out value="Salaire Brut" /></td>
+				<td></td>
+				<td></td>
+				<td><c:out value="${bulletinView.calculRemuneration.salaireBrut}" /></td>
+				<td><c:out value="" /></td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table>
 	
-	<h3>Cotisations</h3>
+	
+	<div class="mt-5 mb-2">
+        <h3 class="font-weight-bold">Cotisations</h3>
+    </div>
 	<table class="table table-striped table-bordered">
 		<thead class="thead-default">
 			<tr>
@@ -116,7 +120,10 @@
 		</tbody>
 	</table>
 
-	<h3>Net Imposable : <c:out value="${bulletinView.calculRemuneration.netImposable}" /></h3>
+	
+	<div class="mt-5 mb-3">
+        <h3 class="font-weight-bold">Net Imposable : <c:out value="${bulletinView.calculRemuneration.netImposable}" /></h3>
+    </div>
 	<table class="table table-striped table-bordered">
 		<thead class="thead-default">
 			<tr>
@@ -141,6 +148,8 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<h3 class="float-right">Net A PAYER : <c:out value="${bulletinView.calculRemuneration.netAPayer}" /></h3>
+	<div class="my-5 pb-4">
+		<h3 class="font-weight-bold float-right">Net A PAYER : <c:out value="${bulletinView.calculRemuneration.netAPayer}" /></h3>
+	</div>
 </div>
 <%@include file="../inc/footer.jsp"%>

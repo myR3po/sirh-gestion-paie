@@ -1,11 +1,10 @@
 package dev.paie.web.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,8 +57,8 @@ public class RemunerationEmployeController {
 	
 	//@RequestMapping(method = RequestMethod.POST, path = "/creer")
 	@PostMapping("/creer")
-	public ModelAndView creerEmploye(@Valid @ModelAttribute("remunerationEmploye") RemunerationEmployeForm ref, BindingResult results) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView creerEmploye(@Validated @ModelAttribute("remunerationEmploye") RemunerationEmployeForm ref, BindingResult results) {
+		ModelAndView mv;
 		if(results.hasErrors()) {
 			mv = getCreerEmployeForm();
 		}else {
@@ -76,6 +75,7 @@ public class RemunerationEmployeController {
 			remunerationEmploye.getGrade().setId(ref.getGrade());
 			
 			remunerationEmployeRepository.save(remunerationEmploye);
+			mv = new ModelAndView();
 			mv.setViewName("redirect:lister");
 		}
 		

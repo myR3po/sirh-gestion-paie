@@ -1,10 +1,14 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@include file="../inc/header.jsp"%>
 
 <div class="container">
 
-<c:out value="${errMsg}" />
-<a class="nav-link" href="<c:url value="/mvc/"/>">revenir en arrière</a>
+	<div class="text-center">
+
+		<h1 class="display-4">Oops!</h1>
+		<h2>Bulletin Not Found</h2>
+		<a href="<c:url value="/bulletins/lister" context="/paie/mvc"/>"
+			class="btn btn-primary btn-lg"> revenir en arrière</a>
+
+	</div>
 </div>
 <%@include file="../inc/footer.jsp"%>
