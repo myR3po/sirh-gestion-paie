@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan({"dev.paie.web.controller", "dev.paie.web.listener", "dev.paie.web.form.validator"})
-@Import({ServicesConfig.class})
+@Import({ServicesConfig.class, SecurityConfig.class})
 @ImportResource({ "classpath:entreprises.xml", "classpath:grades.xml",
 	"classpath:profils-remuneration.xml", "classpath:cotisations-imposables.xml",
 	"classpath:cotisations-non-imposables.xml" })
