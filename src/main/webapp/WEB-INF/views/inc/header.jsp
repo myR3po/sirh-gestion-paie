@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +23,20 @@
 			GESTION-PAIE</a>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link"
-					href="<c:url value="/employes/lister" context="/paie/mvc"/>">Employés
-				</a></li>
+				<li class="nav-item"><a class="nav-link" href="<c:url value="/employes/lister" context="/paie/mvc"/>">Employés </a></li>
 				<li class="nav-item"><a class="nav-link" href="<c:url value="/bulletins/lister" context="/paie/mvc"/>">Bulletins</a></li>
 			</ul>
+			
+			<ul class="nav navbar-nav navbar-right">
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item"> <a class="nav-link" href="#">Hello, <sec:authentication property="principal.username" /></a></li>
+					<li class="nav-item"> <a class="nav-link" href="<c:url value="/logout" context="/paie/mvc"/>">logout</a></li>
+				</sec:authorize>
+		    </ul>
+			
 		</div>
 	</nav>
+	
+	
+	
+	${page.request.contextPath}

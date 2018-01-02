@@ -15,6 +15,6 @@ public class StartupListener {
 	
 	@EventListener(ContextRefreshedEvent.class)
 	public void contextRefreshedEvent(){
-		initialiserDonneesServiceDev.initialiser();
+//		initialiserDonneesServiceDev.initialiser();
 	}
 }

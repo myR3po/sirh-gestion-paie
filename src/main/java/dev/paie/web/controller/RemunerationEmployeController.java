@@ -1,6 +1,7 @@
 package dev.paie.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,14 +50,15 @@ public class RemunerationEmployeController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView creerEmploye() {
 		ModelAndView mv = getCreerEmployeForm();
 		mv.addObject("remunerationEmploye", new RemunerationEmployeForm());
 		return mv;
 	}
 	
-	//@RequestMapping(method = RequestMethod.POST, path = "/creer")
 	@PostMapping("/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView creerEmploye(@Validated @ModelAttribute("remunerationEmploye") RemunerationEmployeForm ref, BindingResult results) {
 		ModelAndView mv;
 		if(results.hasErrors()) {

@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@include file="inc/header.jsp"%>
 
@@ -12,7 +11,8 @@
 	<!-- Spring Security s'attend aux paramètres "username" et "password" -->
 	<form method="post">
 		<sec:csrfInput/>
-		<input name="username"> <input name="password"> 
+		<input type="text" name="username"/> 
+		<input type="password" name="password" /> 
 		<input type="submit" value="Se connecter">
 	</form>
 	

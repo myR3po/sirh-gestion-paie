@@ -3,6 +3,7 @@ package dev.paie.web.controller;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,6 +51,7 @@ public class BulletinSalaireController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView creerBulletin() {
 		ModelAndView mv = getCreerBulletinForm();
 		mv.addObject("bulletin", new BulletinSalaireForm());
@@ -57,6 +59,7 @@ public class BulletinSalaireController {
 	}
 	
 	@PostMapping("/creer")
+	@Secured("ROLE_ADMINISTRATEUR")
 	public ModelAndView creerBulletin(@Validated @ModelAttribute("bulletin") BulletinSalaireForm bsf, BindingResult results) {
 		
 		ModelAndView mv;
